@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "discord.js": "^14.16.1",
+    "express": "^4.19.2",
+    "sharp": "^0.33.5"
+  }
+}
