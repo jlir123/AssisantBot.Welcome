@@ -6,15 +6,17 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageContent // Add this if you want to use message content
   ]
 });
-const express = require('express')
-const app = express()
-app.listen(process.env.PORT || 3824)
+const express = require('express');
+const app = express();
+app.listen(process.env.PORT || 3824);
 app.get('/', (req, res) => {
-    res.send("Hello World")
-})
+  res.send("Hello World");
+});
+
 async function convertWebpToPng(url) {
   const response = await fetch(url);
   const arrayBuffer = await response.arrayBuffer();
@@ -101,7 +103,15 @@ ${autorole ? `> AutoRole: ${autorole}` : ''}
     await channel.send({ files: [attachment], embeds: [embed] });
 
     if (autorole) {
-      await member.roles.add(autorole);
+      console.log(`Assigning role ${autorole.id} to ${member.user.tag}`);
+      try {
+        await member.roles.add(autorole);
+        console.log(`Role assigned successfully`);
+      } catch (roleError) {
+        console.error(`Failed to assign role: ${roleError.message}`);
+      }
+    } else {
+      console.log('No autorole to assign');
     }
   } catch (error) {
     console.error('Error in guildMemberAdd event:', error);
